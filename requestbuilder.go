@@ -90,6 +90,17 @@ func WithURLParam(key, value string) RequestOption {
 	}
 }
 
+func WithHeaders(headers map[string][]string) RequestOption {
+	return func(req *http.Request) error {
+		for key, values := range headers {
+			for _, headerVal := range values {
+				req.Header.Add(key, headerVal)
+			}
+		}
+		return nil
+	}
+}
+
 // newRequestWithAPI returns a new fluent requst builder for the given API.
 // The input types are the request payload and response payload.
 // For Get requests, the request payload is used to type the URL params.

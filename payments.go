@@ -9,6 +9,10 @@ import (
 )
 
 type (
+	OrderPaymentClient interface {
+		CreatePayment(ctx context.Context, req CreatePaymentRequest, requestOptions ...RequestOption) (*Payment, error)
+	}
+
 	PaymentType string
 
 	Payment struct {
@@ -30,10 +34,6 @@ type (
 		Currency string      `json:"currency"`
 		Type     PaymentType `json:"type"`
 	}
-
-	OrderPaymentClient interface {
-		CreatePayment(ctx context.Context, req CreatePaymentRequest) (*Payment, error)
-	}
 )
 
 const (
@@ -41,8 +41,11 @@ const (
 	PaymentTypeCash    = PaymentType("arc_bsp_cash")
 )
 
-func (a *API) CreatePayment(ctx context.Context, req CreatePaymentRequest) (*Payment, error) {
-	return newRequestWithAPI[CreatePaymentRequest, Payment](a).Post("/air/payments", &req).Single(ctx)
+func (a *API) CreatePayment(ctx context.Context, req CreatePaymentRequest, requestOptions ...RequestOption) (*Payment, error) {
+	return newRequestWithAPI[CreatePaymentRequest, Payment](a).
+		Post("/air/payments", &req).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }
 
 var _ OrderPaymentClient = (*API)(nil)

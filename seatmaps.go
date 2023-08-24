@@ -11,6 +11,10 @@ import (
 )
 
 type (
+	SeatmapClient interface {
+		GetSeatmap(ctx context.Context, offerID string, requestOptions ...RequestOption) ([]*Seatmap, error)
+	}
+
 	Seatmap struct {
 		Cabins    []Cabin `json:"cabins"`
 		ID        string  `json:"id"`
@@ -78,12 +82,6 @@ type (
 		// The index of the last row which is overwing, starting from the front of the aircraft.
 		LastRowIndex int `json:"last_row_index"`
 	}
-
-	SeatmapClient interface {
-		// GetSeatmap returns an iterator for the seatmaps of a given Offer.
-		GetSeatmap(ctx context.Context, offerID string) ([]*Seatmap, error)
-		SeatmapForOffer(ctx context.Context, offer Offer) ([]*Seatmap, error)
-	}
 )
 
 const (
@@ -101,14 +99,15 @@ func (e ElementType) String() string {
 	return string(e)
 }
 
-func (a *API) SeatmapForOffer(ctx context.Context, offer Offer) ([]*Seatmap, error) {
-	return a.GetSeatmap(ctx, offer.ID)
-}
+func (a *API) GetSeatmap(ctx context.Context, offerID string, requestOptions ...RequestOption) ([]*Seatmap, error) {
+	if err := validateID(offerID, offerIDPrefix); err != nil {
+		return nil, err
+	}
 
-func (a *API) GetSeatmap(ctx context.Context, offerID string) ([]*Seatmap, error) {
 	return newRequestWithAPI[EmptyPayload, Seatmap](a).
 		Get("/air/seat_maps").
 		WithParam("offer_id", offerID).
+		WithOptions(requestOptions...).
 		Slice(ctx)
 }
 

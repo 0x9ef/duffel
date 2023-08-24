@@ -8,9 +8,9 @@ import "context"
 
 type (
 	PlacesClient interface {
-		PlaceSuggestions(ctx context.Context, query string) ([]*Place, error)
-		Cities(ctx context.Context) *Iter[City]
-		City(ctx context.Context, id string) (*City, error)
+		PlaceSuggestions(ctx context.Context, query string, requestOptions ...RequestOption) ([]*Place, error)
+		Cities(ctx context.Context, requestOptions ...RequestOption) *Iter[City]
+		City(ctx context.Context, id string, requestOptions ...RequestOption) (*City, error)
 	}
 
 	Place struct {
@@ -36,16 +36,24 @@ type (
 const PlaceTypeAirport = "airport"
 const PlaceTypeCity = "city"
 
-func (a *API) PlaceSuggestions(ctx context.Context, query string) ([]*Place, error) {
+func (a *API) PlaceSuggestions(ctx context.Context, query string, requestOptions ...RequestOption) ([]*Place, error) {
 	return newRequestWithAPI[EmptyPayload, Place](a).
-		Get("/places/suggestions").WithParam("query", query).
+		Get("/places/suggestions").
+		WithParam("query", query).
+		WithOptions(requestOptions...).
 		Slice(ctx)
 }
 
-func (a *API) Cities(ctx context.Context) *Iter[City] {
-	return newRequestWithAPI[EmptyPayload, City](a).Get("/air/cities").Iter(ctx)
+func (a *API) Cities(ctx context.Context, requestOptions ...RequestOption) *Iter[City] {
+	return newRequestWithAPI[EmptyPayload, City](a).
+		Get("/air/cities").
+		WithOptions(requestOptions...).
+		Iter(ctx)
 }
 
-func (a *API) City(ctx context.Context, id string) (*City, error) {
-	return newRequestWithAPI[EmptyPayload, City](a).Getf("/air/cities/%s", id).Single(ctx)
+func (a *API) City(ctx context.Context, id string, requestOptions ...RequestOption) (*City, error) {
+	return newRequestWithAPI[EmptyPayload, City](a).
+		Getf("/air/cities/%s", id).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }

@@ -31,9 +31,11 @@ func TestListOffers(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	iter := client.ListOffers(ctx, "orq_00009htyDGjIfajdNBZRlw", ListOffersParams{
-		Sort:           ListOffersSortTotalAmount,
-		MaxConnections: 1,
+	iter := client.ListOffers(ctx, "orq_00009htyDGjIfajdNBZRlw", []ListOffersParams{
+		{
+			Sort:           ListOffersSortTotalAmount,
+			MaxConnections: 1,
+		},
 	})
 
 	iter.Next()
@@ -64,8 +66,10 @@ func TestGetOfferByID(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	data, err := client.GetOffer(ctx, "off_00009htYpSCXrwaB9DnUm0", GetOfferParams{
-		ReturnAvailableServices: true,
+	data, err := client.GetOffer(ctx, "off_00009htYpSCXrwaB9DnUm0", []GetOfferParams{
+		{
+			ReturnAvailableServices: true,
+		},
 	})
 	a.NoError(err)
 	a.NotNil(data)
@@ -119,9 +123,11 @@ func TestListOffers_InavlidID(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	iter := client.ListOffers(ctx, "fake-id", ListOffersParams{
-		Sort:           ListOffersSortTotalAmount,
-		MaxConnections: 1,
+	iter := client.ListOffers(ctx, "fake-id", []ListOffersParams{
+		{
+			Sort:           ListOffersSortTotalAmount,
+			MaxConnections: 1,
+		},
 	})
 
 	iter.Next()

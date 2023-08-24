@@ -208,8 +208,10 @@ func getOfferAction(c *cli.Context) error {
 	client := duffel.New(os.Getenv("DUFFEL_TOKEN"))
 	offerID := c.Args().First()
 
-	off, err := client.GetOffer(c.Context, offerID, duffel.GetOfferParams{
-		ReturnAvailableServices: true,
+	off, err := client.GetOffer(c.Context, offerID, []duffel.GetOfferParams{
+		{
+			ReturnAvailableServices: true,
+		},
 	})
 	if err != nil {
 		log.Printf("OfferID: %s", offerID)
@@ -278,9 +280,11 @@ func getOfferSeatsAction(c *cli.Context) error {
 func listOffersAction(c *cli.Context) error {
 	client := duffel.New(os.Getenv("DUFFEL_TOKEN"))
 	requestID := c.Args().First()
-	iter := client.ListOffers(c.Context, requestID, duffel.ListOffersParams{
-		MaxConnections: 1,
-		Sort:           duffel.ListOffersSortTotalAmount,
+	iter := client.ListOffers(c.Context, requestID, []duffel.ListOffersParams{
+		{
+			MaxConnections: 1,
+			Sort:           duffel.ListOffersSortTotalAmount,
+		},
 	})
 
 	for iter.Next() {
