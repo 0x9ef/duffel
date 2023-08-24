@@ -118,7 +118,7 @@ func TestUpdateOffserPassenger(t *testing.T) {
 	a.Len(data.LoyaltyProgrammeAccounts, 1)
 }
 
-func TestListOffers_InavlidID(t *testing.T) {
+func TestListOffers_InvalidID(t *testing.T) {
 	a := assert.New(t)
 	ctx := context.TODO()
 
@@ -134,6 +134,6 @@ func TestListOffers_InavlidID(t *testing.T) {
 	data := iter.Current()
 	err := iter.Err()
 
-	a.EqualError(err, "offerRequestId should begin with orq_")
+	a.EqualError(err, "id should begin with orq_, but got fake-id")
 	a.Nil(data)
 }
