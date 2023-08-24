@@ -78,9 +78,7 @@ func TestClientRetry(t *testing.T) {
 			return err != nil
 		}),
 	)
-	data, err := client.CreateOfferRequest(ctx, OfferRequestInput{
-		ReturnOffers: true,
-	})
+	data, err := client.CreateOfferRequest(ctx, OfferRequestInput{ReturnOffers: true})
 	a.Error(err)
 	a.Nil(data)
 	a.Equal("duffel: An internal server error occurred. Please try again later.", err.Error())

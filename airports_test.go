@@ -30,8 +30,10 @@ func TestListAirports(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	iter := client.ListAirports(ctx, ListAirportsParams{
-		IATACountryCode: "GB",
+	iter := client.ListAirports(ctx, []ListAirportsParams{
+		{
+			IATACountryCode: "GB",
+		},
 	})
 
 	iter.Next()

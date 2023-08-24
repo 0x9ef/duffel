@@ -128,8 +128,10 @@ func TestListOrders(t *testing.T) {
 
 	ctx := context.TODO()
 	client := New("duffel_test_123")
-	iter := client.ListOrders(ctx, ListOrdersParams{
-		BookingReference: "RZPNX8",
+	iter := client.ListOrders(ctx, []ListOrdersParams{
+		{
+			BookingReference: "RZPNX8",
+		},
 	})
 
 	iter.Next()

@@ -16,6 +16,13 @@ import (
 const orderIDPrefix = "ord_"
 
 type (
+	OrderClient interface {
+		GetOrder(ctx context.Context, id string, requestOptions ...RequestOption) (*Order, error)
+		UpdateOrder(ctx context.Context, id string, params OrderUpdateParams, requestOptions ...RequestOption) (*Order, error)
+		ListOrders(ctx context.Context, params []ListOrdersParams, requestOptions ...RequestOption) *Iter[Order]
+		CreateOrder(ctx context.Context, input CreateOrderInput, requestOptions ...RequestOption) (*Order, error)
+	}
+
 	ListOrdersSort string
 
 	Order struct {
@@ -179,20 +186,6 @@ type (
 		Before *time.Time `url:"before,omitempty"`
 		After  *time.Time `url:"after,omitempty"`
 	}
-
-	OrderClient interface {
-		// Get a single order by ID.
-		GetOrder(ctx context.Context, id string) (*Order, error)
-
-		// Update a single order by ID.
-		UpdateOrder(ctx context.Context, id string, params OrderUpdateParams) (*Order, error)
-
-		// List orders.
-		ListOrders(ctx context.Context, params ...ListOrdersParams) *Iter[Order]
-
-		// Create an order.
-		CreateOrder(ctx context.Context, input CreateOrderInput) (*Order, error)
-	}
 )
 
 const (
@@ -204,23 +197,41 @@ const (
 )
 
 // CreateOrder creates a new order.
-func (a *API) CreateOrder(ctx context.Context, input CreateOrderInput) (*Order, error) {
-	return newRequestWithAPI[CreateOrderInput, Order](a).Post("/air/orders", &input).Single(ctx)
+func (a *API) CreateOrder(ctx context.Context, input CreateOrderInput, requestOptions ...RequestOption) (*Order, error) {
+	return newRequestWithAPI[CreateOrderInput, Order](a).
+		Post("/air/orders", &input).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }
 
-func (a *API) UpdateOrder(ctx context.Context, id string, params OrderUpdateParams) (*Order, error) {
-	return newRequestWithAPI[OrderUpdateParams, Order](a).Patch("/air/orders/"+id, &params).Single(ctx)
+func (a *API) UpdateOrder(ctx context.Context, orderID string, params OrderUpdateParams, requestOptions ...RequestOption) (*Order, error) {
+	if err := validateID(orderID, orderIDPrefix); err != nil {
+		return nil, err
+	}
+
+	return newRequestWithAPI[OrderUpdateParams, Order](a).
+		Patch("/air/orders/"+orderID, &params).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }
 
 // CreateOrder creates a new order.
-func (a *API) GetOrder(ctx context.Context, id string) (*Order, error) {
-	return newRequestWithAPI[EmptyPayload, Order](a).Get("/air/orders/" + id).Single(ctx)
+func (a *API) GetOrder(ctx context.Context, orderID string, requestOptions ...RequestOption) (*Order, error) {
+	if err := validateID(orderID, orderIDPrefix); err != nil {
+		return nil, err
+	}
+
+	return newRequestWithAPI[EmptyPayload, Order](a).
+		Get("/air/orders/" + orderID).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }
 
-func (a *API) ListOrders(ctx context.Context, params ...ListOrdersParams) *Iter[Order] {
+func (a *API) ListOrders(ctx context.Context, params []ListOrdersParams, requestOptions ...RequestOption) *Iter[Order] {
 	return newRequestWithAPI[ListOrdersParams, Order](a).
 		Get("/air/orders").
 		WithParams(normalizeParams(params)...).
+		WithOptions(requestOptions...).
 		Iter(ctx)
 }
 

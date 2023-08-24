@@ -6,16 +6,20 @@ package duffel
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"strconv"
+	"strings"
 	"time"
 )
 
+const offerRequestIDPrefix = "orq_"
+
 type (
 	OfferRequestClient interface {
-		CreateOfferRequest(ctx context.Context, requestInput OfferRequestInput) (*OfferRequest, error)
-		GetOfferRequest(ctx context.Context, id string) (*OfferRequest, error)
-		ListOfferRequests(ctx context.Context) *Iter[OfferRequest]
+		CreateOfferRequest(ctx context.Context, requestInput OfferRequestInput, requestOptions ...RequestOption) (*OfferRequest, error)
+		GetOfferRequest(ctx context.Context, offerRequestID string, requestOptions ...RequestOption) (*OfferRequest, error)
+		ListOfferRequests(ctx context.Context, requestOptions ...RequestOption) *Iter[OfferRequest]
 	}
 
 	OfferRequestInput struct {
@@ -61,23 +65,43 @@ type (
 	}
 )
 
-func (a *API) CreateOfferRequest(ctx context.Context, requestInput OfferRequestInput) (*OfferRequest, error) {
+func (a *API) CreateOfferRequest(ctx context.Context, requestInput OfferRequestInput, requestOptions ...RequestOption) (*OfferRequest, error) {
 	return newRequestWithAPI[OfferRequestInput, OfferRequest](a).
 		Post("/air/offer_requests", &requestInput).
 		WithParams(requestInput).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) GetOfferRequest(ctx context.Context, id string) (*OfferRequest, error) {
-	return newRequestWithAPI[EmptyPayload, OfferRequest](a).Getf("/air/offer_requests/%s", id).Single(ctx)
+func (a *API) GetOfferRequest(ctx context.Context, offerRequestID string, requestOptions ...RequestOption) (*OfferRequest, error) {
+	if err := validateID(offerRequestID, offerRequestIDPrefix); err != nil {
+		return nil, err
+	}
+
+	return newRequestWithAPI[EmptyPayload, OfferRequest](a).
+		Getf("/air/offer_requests/%s", offerRequestID).
+		WithOptions(requestOptions...).
+		Single(ctx)
 }
 
-func (a *API) ListOfferRequests(ctx context.Context) *Iter[OfferRequest] {
-	return newRequestWithAPI[EmptyPayload, OfferRequest](a).Get("/air/offer_requests").Iter(ctx)
+func (a *API) ListOfferRequests(ctx context.Context, requestOptions ...RequestOption) *Iter[OfferRequest] {
+	return newRequestWithAPI[EmptyPayload, OfferRequest](a).
+		Get("/air/offer_requests").
+		WithOptions(requestOptions...).
+		Iter(ctx)
 }
 
 // Encode implements the ParamEncoder interface.
 func (o OfferRequestInput) Encode(q url.Values) error {
 	q.Set("return_offers", strconv.FormatBool(o.ReturnOffers))
+	return nil
+}
+
+func validateID(id, prefix string) error {
+	if id == "" {
+		return fmt.Errorf("id param is required")
+	} else if !strings.HasPrefix(id, prefix) {
+		return fmt.Errorf("id should begin with %s, but got %s", prefix, id)
+	}
 	return nil
 }
