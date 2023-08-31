@@ -62,6 +62,12 @@ const (
 	// The Content-Type should be set to application/json
 	InvalidContentTypeHeader ErrorCode = "invalid_content_type_header"
 
+	// The airline does not support the format of the email address provided
+	InvalidEmailAddress ErrorCode = "invalid_email_address"
+
+	// The phone number is not valid
+	InvalidPhoneNumber ErrorCode = "invalid_phone_number"
+
 	// The data in the request body should be a JSON object
 	InvalidDataParam ErrorCode = "invalid_data_param"
 
@@ -89,8 +95,17 @@ const (
 	// The resource you are trying to access does not exist
 	NotFound ErrorCode = "not_found"
 
+	// The provided offer is no longer available for the same price, please retrieve the offer again to get the latest pricing information.
+	PriceChanged ErrorCode = "price_changed"
+
+	// The selected offer has already expired
+	OfferExpired ErrorCode = "offer_expired"
+
 	// The provided offer is no longer available, please select another offer or create a new offer request to get the latest availability
 	OfferNoLongerAvailable ErrorCode = "offer_no_longer_available"
+
+	// An offer from this offer request has already been booked; please perform a new search
+	OfferRequestAlreadyBooked ErrorCode = "offer_request_already_booked"
 
 	// Too many requests have hit the API too quickly. Please retry your request after the time specified in the ratelimit-reset header returned to you
 	RateLimitExceeded ErrorCode = "rate_limit_exceeded"
