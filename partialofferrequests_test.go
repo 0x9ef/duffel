@@ -73,7 +73,11 @@ func TestGetPartialOfferRequest(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	data, err := client.GetPartialOfferRequest(ctx, "prq_0000AZPy1jdXi7327O8H9k")
+	data, err := client.GetPartialOfferRequest(ctx, "prq_0000AZPy1jdXi7327O8H9k", []GetPartialOfferRequestParams{
+		{
+			SelectedPartialOffer: "off_0000AZPy1jzsN4udEea6yM_0",
+		},
+	})
 	a.NoError(err)
 	a.NotNil(data)
 	a.Equal("973.73 GBP", data.Offers[0].TotalAmount().String())

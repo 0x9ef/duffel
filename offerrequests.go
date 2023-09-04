@@ -68,7 +68,6 @@ type (
 func (a *API) CreateOfferRequest(ctx context.Context, requestInput OfferRequestInput, requestOptions ...RequestOption) (*OfferRequest, error) {
 	return newRequestWithAPI[OfferRequestInput, OfferRequest](a).
 		Post("/air/offer_requests", &requestInput).
-		WithParams(requestInput).
 		WithOptions(requestOptions...).
 		Single(ctx)
 }

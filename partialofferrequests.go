@@ -10,7 +10,7 @@ const partialOsfferRequestIDPrefix = "prq_"
 type (
 	PartialOfferRequestClient interface {
 		CreatePartialOfferRequest(ctx context.Context, requestInput PartialOfferRequestInput, requestOptions ...RequestOption) (*OfferRequest, error)
-		GetPartialOfferRequest(ctx context.Context, partialOfferRequestID string, requestOptions ...RequestOption) (*OfferRequest, error)
+		GetPartialOfferRequest(ctx context.Context, partialOfferRequestID string, options []GetPartialOfferRequestParams, requestOptions ...RequestOption) (*OfferRequest, error)
 		ListPartialOfferRequestFares(ctx context.Context, partialOfferRequestID string, options []ListPartialOfferRequestFaresParams, requestOptions ...RequestOption) (*OfferRequest, error)
 	}
 
@@ -33,6 +33,10 @@ type (
 		SupplierTimeout int `json:"-" url:"supplier_timeout,omitempty"`
 	}
 
+	GetPartialOfferRequestParams struct {
+		SelectedPartialOffer string `url:"selected_partial_offer"`
+	}
+
 	ListPartialOfferRequestFaresParams struct {
 		SelectedPartialOffer string `url:"selected_partial_offer"`
 	}
@@ -41,38 +45,45 @@ type (
 func (a *API) CreatePartialOfferRequest(ctx context.Context, requestInput PartialOfferRequestInput, requestOptions ...RequestOption) (*OfferRequest, error) {
 	return newRequestWithAPI[PartialOfferRequestInput, OfferRequest](a).
 		Post("/air/partial_offer_requests", &requestInput).
-		WithParams(requestInput).
 		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) GetPartialOfferRequest(ctx context.Context, partialOfferRequestID string, requestOptions ...RequestOption) (*OfferRequest, error) {
+func (a *API) GetPartialOfferRequest(ctx context.Context, partialOfferRequestID string, params []GetPartialOfferRequestParams, requestOptions ...RequestOption) (*OfferRequest, error) {
 	if err := validateID(partialOfferRequestID, partialOsfferRequestIDPrefix); err != nil {
 		return nil, err
 	}
 
-	return newRequestWithAPI[EmptyPayload, OfferRequest](a).
+	return newRequestWithAPI[GetPartialOfferRequestParams, OfferRequest](a).
 		Getf("/air/partial_offer_requests/%s", partialOfferRequestID).
+		WithParams(normalizeParams(params)...).
 		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) ListPartialOfferRequestFares(ctx context.Context, partialOfferRequestID string, options []ListPartialOfferRequestFaresParams, requestOptions ...RequestOption) (*OfferRequest, error) {
+func (a *API) ListPartialOfferRequestFares(ctx context.Context, partialOfferRequestID string, params []ListPartialOfferRequestFaresParams, requestOptions ...RequestOption) (*OfferRequest, error) {
 	if err := validateID(partialOfferRequestID, partialOsfferRequestIDPrefix); err != nil {
 		return nil, err
 	}
 
 	return newRequestWithAPI[ListPartialOfferRequestFaresParams, OfferRequest](a).
 		Getf("/air/partial_offer_requests/%s/fares", partialOfferRequestID).
-		WithParams(normalizeParams(options)...).
+		WithParams(normalizeParams(params)...).
 		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
 var _ PartialOfferRequestClient = (*API)(nil)
 
+func (o GetPartialOfferRequestParams) Encode(q url.Values) error {
+	if o.SelectedPartialOffer != "" {
+		q.Set("selected_partial_offer[]", o.SelectedPartialOffer)
+	}
+	return nil
+}
+
 func (o ListPartialOfferRequestFaresParams) Encode(q url.Values) error {
-	q.Set("selected_partial_offer", o.SelectedPartialOffer)
+	q.Add("selected_partial_offer[]", o.SelectedPartialOffer)
 	return nil
 }
 
@@ -80,3 +91,5 @@ func (o ListPartialOfferRequestFaresParams) Encode(q url.Values) error {
 func (o PartialOfferRequestInput) Encode(q url.Values) error {
 	return nil
 }
+
+// fares?selected_partial_offer[]=?selected_partial_offer[]=off_0000AJyeTUCEoY5PhVPN8k_0&selected_partial_offer[]=off_0000AJyeTUCEoY5PhVPN8k_1
