@@ -1,0 +1,666 @@
+{
+    "data": {
+        "slices": [
+            {
+                "origin_type": "city",
+                "origin": {
+                    "type": "city",
+                    "time_zone": null,
+                    "name": "New York",
+                    "longitude": null,
+                    "latitude": null,
+                    "id": "cit_nyc_us",
+                    "icao_code": null,
+                    "iata_country_code": "US",
+                    "iata_code": "NYC",
+                    "iata_city_code": "NYC",
+                    "city_name": null,
+                    "city": null,
+                    "airports": [
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "John F. Kennedy International Airport",
+                            "longitude": -73.778519,
+                            "latitude": 40.640556,
+                            "id": "arp_jfk_us",
+                            "icao_code": "KJFK",
+                            "iata_country_code": "US",
+                            "iata_code": "JFK",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Newark Liberty International Airport",
+                            "longitude": -74.171581,
+                            "latitude": 40.691016,
+                            "id": "arp_ewr_us",
+                            "icao_code": "KEWR",
+                            "iata_country_code": "US",
+                            "iata_code": "EWR",
+                            "iata_city_code": "NYC",
+                            "city_name": "Newark"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "LaGuardia Airport",
+                            "longitude": -73.873281,
+                            "latitude": 40.777062,
+                            "id": "arp_lga_us",
+                            "icao_code": "KLGA",
+                            "iata_country_code": "US",
+                            "iata_code": "LGA",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "New York Skyports Seaplane Base Airport",
+                            "longitude": -73.973717,
+                            "latitude": 40.735,
+                            "id": "arp_nys_us",
+                            "icao_code": null,
+                            "iata_country_code": "US",
+                            "iata_code": "NYS",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "New York Stewart International Airport",
+                            "longitude": -74.102724,
+                            "latitude": 41.501292,
+                            "id": "arp_swf_us",
+                            "icao_code": "KSWF",
+                            "iata_country_code": "US",
+                            "iata_code": "SWF",
+                            "iata_city_code": "NYC",
+                            "city_name": "Newburgh"
+                        }
+                    ]
+                },
+                "destination_type": "city",
+                "destination": {
+                    "type": "city",
+                    "time_zone": null,
+                    "name": "Atlanta",
+                    "longitude": null,
+                    "latitude": null,
+                    "id": "cit_atl_us",
+                    "icao_code": null,
+                    "iata_country_code": "US",
+                    "iata_code": "ATL",
+                    "iata_city_code": "ATL",
+                    "city_name": null,
+                    "city": null,
+                    "airports": [
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Hartsfield-Jackson Atlanta International Airport",
+                            "longitude": -84.4279,
+                            "latitude": 33.638714,
+                            "id": "arp_atl_us",
+                            "icao_code": "KATL",
+                            "iata_country_code": "US",
+                            "iata_code": "ATL",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Fulton County Airport",
+                            "longitude": -84.521638,
+                            "latitude": 33.777896,
+                            "id": "arp_fty_us",
+                            "icao_code": "KFTY",
+                            "iata_country_code": "US",
+                            "iata_code": "FTY",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Dekalb Peachtree Airport",
+                            "longitude": -84.303619,
+                            "latitude": 33.875583,
+                            "id": "arp_pdk_us",
+                            "icao_code": "KPDK",
+                            "iata_country_code": "US",
+                            "iata_code": "PDK",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        }
+                    ]
+                },
+                "departure_date": "2023-10-09"
+            },
+            {
+                "origin_type": "city",
+                "origin": {
+                    "type": "city",
+                    "time_zone": null,
+                    "name": "Atlanta",
+                    "longitude": null,
+                    "latitude": null,
+                    "id": "cit_atl_us",
+                    "icao_code": null,
+                    "iata_country_code": "US",
+                    "iata_code": "ATL",
+                    "iata_city_code": "ATL",
+                    "city_name": null,
+                    "city": null,
+                    "airports": [
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Hartsfield-Jackson Atlanta International Airport",
+                            "longitude": -84.4279,
+                            "latitude": 33.638714,
+                            "id": "arp_atl_us",
+                            "icao_code": "KATL",
+                            "iata_country_code": "US",
+                            "iata_code": "ATL",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Fulton County Airport",
+                            "longitude": -84.521638,
+                            "latitude": 33.777896,
+                            "id": "arp_fty_us",
+                            "icao_code": "KFTY",
+                            "iata_country_code": "US",
+                            "iata_code": "FTY",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Dekalb Peachtree Airport",
+                            "longitude": -84.303619,
+                            "latitude": 33.875583,
+                            "id": "arp_pdk_us",
+                            "icao_code": "KPDK",
+                            "iata_country_code": "US",
+                            "iata_code": "PDK",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta"
+                        }
+                    ]
+                },
+                "destination_type": "city",
+                "destination": {
+                    "type": "city",
+                    "time_zone": null,
+                    "name": "New York",
+                    "longitude": null,
+                    "latitude": null,
+                    "id": "cit_nyc_us",
+                    "icao_code": null,
+                    "iata_country_code": "US",
+                    "iata_code": "NYC",
+                    "iata_city_code": "NYC",
+                    "city_name": null,
+                    "city": null,
+                    "airports": [
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "John F. Kennedy International Airport",
+                            "longitude": -73.778519,
+                            "latitude": 40.640556,
+                            "id": "arp_jfk_us",
+                            "icao_code": "KJFK",
+                            "iata_country_code": "US",
+                            "iata_code": "JFK",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Newark Liberty International Airport",
+                            "longitude": -74.171581,
+                            "latitude": 40.691016,
+                            "id": "arp_ewr_us",
+                            "icao_code": "KEWR",
+                            "iata_country_code": "US",
+                            "iata_code": "EWR",
+                            "iata_city_code": "NYC",
+                            "city_name": "Newark"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "LaGuardia Airport",
+                            "longitude": -73.873281,
+                            "latitude": 40.777062,
+                            "id": "arp_lga_us",
+                            "icao_code": "KLGA",
+                            "iata_country_code": "US",
+                            "iata_code": "LGA",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "New York Skyports Seaplane Base Airport",
+                            "longitude": -73.973717,
+                            "latitude": 40.735,
+                            "id": "arp_nys_us",
+                            "icao_code": null,
+                            "iata_country_code": "US",
+                            "iata_code": "NYS",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York"
+                        },
+                        {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "New York Stewart International Airport",
+                            "longitude": -74.102724,
+                            "latitude": 41.501292,
+                            "id": "arp_swf_us",
+                            "icao_code": "KSWF",
+                            "iata_country_code": "US",
+                            "iata_code": "SWF",
+                            "iata_city_code": "NYC",
+                            "city_name": "Newburgh"
+                        }
+                    ]
+                },
+                "departure_date": "2023-10-10"
+            }
+        ],
+        "passengers": [
+            {
+                "type": "adult",
+                "loyalty_programme_accounts": [],
+                "id": "pas_0000AZPy1jZzvIDDwOTRdA",
+                "given_name": null,
+                "fare_type": null,
+                "family_name": null,
+                "age": null
+            },
+            {
+                "type": "adult",
+                "loyalty_programme_accounts": [],
+                "id": "pas_0000AZPy1jZzvIDDwOTRdB",
+                "given_name": null,
+                "fare_type": null,
+                "family_name": null,
+                "age": null
+            },
+            {
+                "type": null,
+                "loyalty_programme_accounts": [],
+                "id": "pas_0000AZPy1jZzvIDDwOTRdC",
+                "given_name": null,
+                "fare_type": null,
+                "family_name": null,
+                "age": 1
+            }
+        ],
+        "offers": [
+            {
+                "updated_at": "2023-09-04T08:26:43.001425Z",
+                "total_emissions_kg": "749",
+                "total_currency": "GBP",
+                "total_amount": "973.73",
+                "tax_currency": "GBP",
+                "tax_amount": "148.54",
+                "supported_passenger_identity_document_types": [
+                    "passport",
+                    "known_traveler_number",
+                    "passenger_redress_number"
+                ],
+                "slices": [
+                    {
+                        "segments": [
+                            {
+                                "stops": [],
+                                "passengers": [
+                                    {
+                                        "passenger_id": "pas_0000AZPy1jZzvIDDwOTRdA",
+                                        "fare_basis_code": "J20LGTN2",
+                                        "cabin_class_marketing_name": "Business",
+                                        "cabin_class": "business",
+                                        "cabin": {
+                                            "name": "business",
+                                            "marketing_name": "Business",
+                                            "amenities": {
+                                                "wifi": {
+                                                    "cost": "paid",
+                                                    "available": true
+                                                },
+                                                "seat": {
+                                                    "pitch": "30",
+                                                    "legroom": "n/a"
+                                                },
+                                                "power": {
+                                                    "available": true
+                                                }
+                                            }
+                                        },
+                                        "baggages": [
+                                            {
+                                                "type": "checked",
+                                                "quantity": 1
+                                            },
+                                            {
+                                                "type": "carry_on",
+                                                "quantity": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "passenger_id": "pas_0000AZPy1jZzvIDDwOTRdB",
+                                        "fare_basis_code": "J20LGTN2",
+                                        "cabin_class_marketing_name": "Business",
+                                        "cabin_class": "business",
+                                        "cabin": {
+                                            "name": "business",
+                                            "marketing_name": "Business",
+                                            "amenities": {
+                                                "wifi": {
+                                                    "cost": "paid",
+                                                    "available": true
+                                                },
+                                                "seat": {
+                                                    "pitch": "30",
+                                                    "legroom": "n/a"
+                                                },
+                                                "power": {
+                                                    "available": true
+                                                }
+                                            }
+                                        },
+                                        "baggages": [
+                                            {
+                                                "type": "checked",
+                                                "quantity": 1
+                                            },
+                                            {
+                                                "type": "carry_on",
+                                                "quantity": 1
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "passenger_id": "pas_0000AZPy1jZzvIDDwOTRdC",
+                                        "fare_basis_code": "J20LGTN2",
+                                        "cabin_class_marketing_name": "Business",
+                                        "cabin_class": "business",
+                                        "cabin": {
+                                            "name": "business",
+                                            "marketing_name": "Business",
+                                            "amenities": {
+                                                "wifi": {
+                                                    "cost": "paid",
+                                                    "available": true
+                                                },
+                                                "seat": {
+                                                    "pitch": "30",
+                                                    "legroom": "n/a"
+                                                },
+                                                "power": {
+                                                    "available": true
+                                                }
+                                            }
+                                        },
+                                        "baggages": [
+                                            {
+                                                "type": "checked",
+                                                "quantity": 1
+                                            },
+                                            {
+                                                "type": "carry_on",
+                                                "quantity": 1
+                                            }
+                                        ]
+                                    }
+                                ],
+                                "origin_terminal": "2",
+                                "origin": {
+                                    "type": "airport",
+                                    "time_zone": "America/New_York",
+                                    "name": "John F. Kennedy International Airport",
+                                    "longitude": -73.778519,
+                                    "latitude": 40.640556,
+                                    "id": "arp_jfk_us",
+                                    "icao_code": "KJFK",
+                                    "iata_country_code": "US",
+                                    "iata_code": "JFK",
+                                    "iata_city_code": "NYC",
+                                    "city_name": "New York",
+                                    "city": {
+                                        "type": "city",
+                                        "time_zone": null,
+                                        "name": "New York",
+                                        "longitude": null,
+                                        "latitude": null,
+                                        "id": "cit_nyc_us",
+                                        "icao_code": null,
+                                        "iata_country_code": "US",
+                                        "iata_code": "NYC",
+                                        "iata_city_code": "NYC",
+                                        "city_name": null
+                                    },
+                                    "airports": null
+                                },
+                                "operating_carrier_flight_number": "6511",
+                                "operating_carrier": {
+                                    "name": "Duffel Airways",
+                                    "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                                    "logo_lockup_url": null,
+                                    "id": "arl_00009VME7D6ivUu8dn35WK",
+                                    "iata_code": "ZZ",
+                                    "conditions_of_carriage_url": null
+                                },
+                                "marketing_carrier_flight_number": "6511",
+                                "marketing_carrier": {
+                                    "name": "Duffel Airways",
+                                    "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                                    "logo_lockup_url": null,
+                                    "id": "arl_00009VME7D6ivUu8dn35WK",
+                                    "iata_code": "ZZ",
+                                    "conditions_of_carriage_url": null
+                                },
+                                "id": "seg_0000AZPy1jzsN4udEea6yA",
+                                "duration": "PT2H12M",
+                                "distance": "1222.0052502184008",
+                                "destination_terminal": "1",
+                                "destination": {
+                                    "type": "airport",
+                                    "time_zone": "America/New_York",
+                                    "name": "Hartsfield-Jackson Atlanta International Airport",
+                                    "longitude": -84.4279,
+                                    "latitude": 33.638714,
+                                    "id": "arp_atl_us",
+                                    "icao_code": "KATL",
+                                    "iata_country_code": "US",
+                                    "iata_code": "ATL",
+                                    "iata_city_code": "ATL",
+                                    "city_name": "Atlanta",
+                                    "city": {
+                                        "type": "city",
+                                        "time_zone": null,
+                                        "name": "Atlanta",
+                                        "longitude": null,
+                                        "latitude": null,
+                                        "id": "cit_atl_us",
+                                        "icao_code": null,
+                                        "iata_country_code": "US",
+                                        "iata_code": "ATL",
+                                        "iata_city_code": "ATL",
+                                        "city_name": null
+                                    },
+                                    "airports": null
+                                },
+                                "departing_at": "2023-10-09T06:11:00",
+                                "arriving_at": "2023-10-09T08:23:00",
+                                "aircraft": {
+                                    "name": "Boeing 777-300",
+                                    "id": "arc_00009VMF8AhXSSRnQDI6HE",
+                                    "iata_code": "773"
+                                }
+                            }
+                        ],
+                        "origin_type": "airport",
+                        "origin": {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "John F. Kennedy International Airport",
+                            "longitude": -73.778519,
+                            "latitude": 40.640556,
+                            "id": "arp_jfk_us",
+                            "icao_code": "KJFK",
+                            "iata_country_code": "US",
+                            "iata_code": "JFK",
+                            "iata_city_code": "NYC",
+                            "city_name": "New York",
+                            "city": {
+                                "type": "city",
+                                "time_zone": null,
+                                "name": "New York",
+                                "longitude": null,
+                                "latitude": null,
+                                "id": "cit_nyc_us",
+                                "icao_code": null,
+                                "iata_country_code": "US",
+                                "iata_code": "NYC",
+                                "iata_city_code": "NYC",
+                                "city_name": null
+                            },
+                            "airports": null
+                        },
+                        "id": "sli_0000AZPy1jzsN4udEea6yB",
+                        "fare_brand_name": "Basic",
+                        "duration": "PT2H12M",
+                        "destination_type": "airport",
+                        "destination": {
+                            "type": "airport",
+                            "time_zone": "America/New_York",
+                            "name": "Hartsfield-Jackson Atlanta International Airport",
+                            "longitude": -84.4279,
+                            "latitude": 33.638714,
+                            "id": "arp_atl_us",
+                            "icao_code": "KATL",
+                            "iata_country_code": "US",
+                            "iata_code": "ATL",
+                            "iata_city_code": "ATL",
+                            "city_name": "Atlanta",
+                            "city": {
+                                "type": "city",
+                                "time_zone": null,
+                                "name": "Atlanta",
+                                "longitude": null,
+                                "latitude": null,
+                                "id": "cit_atl_us",
+                                "icao_code": null,
+                                "iata_country_code": "US",
+                                "iata_code": "ATL",
+                                "iata_city_code": "ATL",
+                                "city_name": null
+                            },
+                            "airports": null
+                        },
+                        "conditions": {
+                            "change_before_departure": {
+                                "penalty_currency": null,
+                                "penalty_amount": null,
+                                "allowed": false
+                            }
+                        }
+                    }
+                ],
+                "private_fares": [],
+                "payment_requirements": {
+                    "requires_instant_payment": false,
+                    "price_guarantee_expires_at": "2023-09-06T08:26:42Z",
+                    "payment_required_by": "2023-09-07T08:26:42Z"
+                },
+                "passengers": [
+                    {
+                        "type": "adult",
+                        "loyalty_programme_accounts": [],
+                        "id": "pas_0000AZPy1jZzvIDDwOTRdA",
+                        "given_name": null,
+                        "fare_type": null,
+                        "family_name": null,
+                        "age": null
+                    },
+                    {
+                        "type": "adult",
+                        "loyalty_programme_accounts": [],
+                        "id": "pas_0000AZPy1jZzvIDDwOTRdB",
+                        "given_name": null,
+                        "fare_type": null,
+                        "family_name": null,
+                        "age": null
+                    },
+                    {
+                        "type": "infant_without_seat",
+                        "loyalty_programme_accounts": [],
+                        "id": "pas_0000AZPy1jZzvIDDwOTRdC",
+                        "given_name": null,
+                        "fare_type": null,
+                        "family_name": null,
+                        "age": null
+                    }
+                ],
+                "passenger_identity_documents_required": false,
+                "partial": true,
+                "owner": {
+                    "name": "Duffel Airways",
+                    "logo_symbol_url": "https://assets.duffel.com/img/airlines/for-light-background/full-color-logo/ZZ.svg",
+                    "logo_lockup_url": null,
+                    "id": "arl_00009VME7D6ivUu8dn35WK",
+                    "iata_code": "ZZ",
+                    "conditions_of_carriage_url": null
+                },
+                "live_mode": false,
+                "id": "off_0000AZPy1jzsN4udEea6yM_0",
+                "expires_at": "2023-09-04T08:56:42.994898Z",
+                "created_at": "2023-09-04T08:26:43.001425Z",
+                "conditions": {
+                    "refund_before_departure": {
+                        "penalty_currency": null,
+                        "penalty_amount": null,
+                        "allowed": false
+                    },
+                    "change_before_departure": {
+                        "penalty_currency": null,
+                        "penalty_amount": null,
+                        "allowed": false
+                    }
+                },
+                "base_currency": "GBP",
+                "base_amount": "825.19",
+                "allowed_passenger_identity_document_types": [
+                    "passport",
+                    "tax_id",
+                    "known_traveler_number",
+                    "passenger_redress_number"
+                ]
+            }
+        ],
+        "live_mode": false,
+        "id": "prq_0000AZPy1jdXi7327O8H9k",
+        "created_at": "2023-09-04T08:26:42.921230Z",
+        "client_key": "SFMyNTY.g2gDdAAAAANkAAlsaXZlX21vZGVkAAVmYWxzZWQAD29yZ2FuaXNhdGlvbl9pZG0AAAAab3JnXzAwMDBBTjF1dmhsc1pCUXpEOE9JMVlkAAtyZXNvdXJjZV9pZG0AAAAacHJxXzAwMDBBWlB5MWpkWGk3MzI3TzhIOWtuBgDmZ01figFiAAFRgA.YlS881vjJbpa1dKJQNAzaIX2S0kotCeSbpbuKVN-UgM",
+        "cabin_class": "business"
+    }
+}
