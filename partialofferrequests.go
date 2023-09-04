@@ -91,5 +91,3 @@ func (o ListPartialOfferRequestFaresParams) Encode(q url.Values) error {
 func (o PartialOfferRequestInput) Encode(q url.Values) error {
 	return nil
 }
-
-// fares?selected_partial_offer[]=?selected_partial_offer[]=off_0000AJyeTUCEoY5PhVPN8k_0&selected_partial_offer[]=off_0000AJyeTUCEoY5PhVPN8k_1
