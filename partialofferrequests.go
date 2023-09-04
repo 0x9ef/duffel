@@ -63,7 +63,7 @@ func (a *API) ListPartialOfferRequestFares(ctx context.Context, partialOfferRequ
 	}
 
 	return newRequestWithAPI[ListPartialOfferRequestFaresParams, OfferRequest](a).
-		Getf("/air/partial_offer_requests/%s", partialOfferRequestID).
+		Getf("/air/partial_offer_requests/%s/fares", partialOfferRequestID).
 		WithParams(normalizeParams(options)...).
 		WithOptions(requestOptions...).
 		Single(ctx)

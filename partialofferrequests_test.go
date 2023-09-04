@@ -81,3 +81,34 @@ func TestGetPartialOfferRequest(t *testing.T) {
 	a.Equal("airport", data.Offers[0].Slices[0].DestinationType)
 	a.Len(data.Slices, 2)
 }
+
+func TestListPartialOfferRequestFares(t *testing.T) {
+	defer gock.Off()
+	a := assert.New(t)
+	gock.New("https://api.duffel.com").
+		Get("/air/partial_offer_requests/prq_0000AZPy1jdXi7327O8H9k/fares").
+		MatchParam("selected_partial_offer", "off_0000AZPy1jzsN4udEea6yM_0").
+		MatchParam("selected_partial_offer", "off_0000AZPy1jzsN4udEea6yM_1").
+		Reply(200).
+		SetHeader("Ratelimit-Limit", "5").
+		SetHeader("Ratelimit-Remaining", "5").
+		SetHeader("Ratelimit-Reset", time.Now().Format(time.RFC1123)).
+		SetHeader("Date", time.Now().Format(time.RFC1123)).
+		File("fixtures/200-list-partial-offer-request-fares.json")
+
+	ctx := context.TODO()
+
+	client := New("duffel_test_123")
+	data, err := client.ListPartialOfferRequestFares(ctx, "prq_0000AZPy1jdXi7327O8H9k",
+		[]ListPartialOfferRequestFaresParams{
+			{SelectedPartialOffer: "off_0000AZPy1jzsN4udEea6yM_0"}, {SelectedPartialOffer: "off_0000AZPy1jzsN4udEea6yM_1"},
+		})
+	a.NoError(err)
+	a.NotNil(data)
+	a.Equal("273.22 GBP", data.Offers[0].TotalAmount().String())
+	a.Equal("41.68 GBP", data.Offers[0].TaxAmount().String())
+	// Second offer
+	a.Equal("337.78 GBP", data.Offers[1].TotalAmount().String())
+	a.Equal("51.53 GBP", data.Offers[1].TaxAmount().String())
+	a.Len(data.Slices, 2)
+}
