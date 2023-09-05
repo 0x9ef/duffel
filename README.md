@@ -1,8 +1,17 @@
 # Duffel API Go Client
 
-A Go (golang) client library for the [Duffel Flights API](https://duffel.com) implemented by the [Airheart](https://airheart.com) team.
+A Go (golang) client library for the [Duffel Flights API](https://duffel.com) originally implemented by the [Airheart](https://airheart.com) team.
 
 [![Tests](https://github.com/airheartdev/duffel/actions/workflows/ci.yaml/badge.svg)](https://github.com/airheartdev/duffel/actions/workflows/ci.yaml)
+
+## Fork updates by 0x9ef
+
+This fork contains some significant improvements:
+ - Implemented [backoff retry mechanism](https://github.com/0x9ef/duffel/pull/3)
+ - Added [missing error codes](https://github.com/0x9ef/duffel/pull/6) and [flight structures](https://github.com/0x9ef/duffel/pull/1)
+ - Added [request options](https://github.com/0x9ef/duffel/pull/4)
+ - Added [partial offer request functionality](https://duffel.com/docs/api/v1/partial-offer-requests)
+
 
 ## Installation
 
@@ -108,6 +117,24 @@ if lastRequestID, ok:= dfl.LastRequestID(); ok {
 }
 ```
 
+## Retry Mechanism
+
+Sometimes you need to make a retry request, retry algorithm depends on your purposes, currently, we support **exponental backoff** from the box but you can provide your own implementing `dapi.RetryFunc`. You can specify retry attempts, wait time, and maximal wait time to retry the request. Also you have to provide a retry condition, the retry mechanism won't work without at least 1 condition.
+
+```go
+
+client := dapi.New("duffel_test_123", 
+  // Specify retry attempts, wait time and maximal wait time
+  dapi.WithRetry(3, time.Second, time.Second*3),
+  dapi.WithRetryCondition(func(resp *http.Response, err error) bool {
+				if e, ok := err.(*dapi.DuffelError); ok {
+					return e.Retryable // retry only if duffel error is retryable
+				}
+				return false
+  }),
+)
+```
+
 ## Error Handling
 
 Each API method returns an error or an iterator that returns errors at each iteration. If an error is returned from Duffel, it will be of type `DuffelError` and expose more details on how to handle it.
@@ -153,6 +180,7 @@ To maintain simplicity and ease of use, this client library is hand-coded (inste
 - [x] Pagination _(using iterators)_
 - [x] Rate Limiting _(automatically throttles requests to stay under limit)_
 - [x] Offer Requests
+- [x] Partial Offer Requests
 - [x] Offers
 - [x] Orders
 - [x] Seat Maps
