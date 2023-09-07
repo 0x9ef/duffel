@@ -13,7 +13,7 @@ import (
 	"gopkg.in/h2non/gock.v1"
 )
 
-func TestPlacesSuggestions(t *testing.T) {
+func TestListPlaces(t *testing.T) {
 	defer gock.Off()
 	a := assert.New(t)
 
@@ -30,7 +30,7 @@ func TestPlacesSuggestions(t *testing.T) {
 	ctx := context.TODO()
 
 	client := New("duffel_test_123")
-	places, err := client.PlaceSuggestions(ctx, "Lond")
+	places, err := client.ListPlaces(ctx, []ListPlacesParams{{Name: "Lond"}})
 	a.NoError(err)
 	a.NotNil(places)
 
@@ -39,4 +39,43 @@ func TestPlacesSuggestions(t *testing.T) {
 	a.Equal("London", places[0].City.Name)
 	a.Equal("London", places[0].CityName)
 	a.Equal("Heathrow", places[0].Airports[0].Name)
+}
+
+func TestListPlacesByLongitude(t *testing.T) {
+	defer gock.Off()
+	a := assert.New(t)
+
+	gock.New("https://api.duffel.com").
+		Get("/places/suggestions").
+		MatchParam("lat", "51.885508").
+		MatchParam("lng", "0.236933").
+		MatchParam("rad", "100").
+		Reply(200).
+		SetHeader("Ratelimit-Limit", "5").
+		SetHeader("Ratelimit-Remaining", "5").
+		SetHeader("Ratelimit-Reset", time.Now().Format(time.RFC1123)).
+		SetHeader("Date", time.Now().Format(time.RFC1123)).
+		File("fixtures/200-list-places-by-cord.json")
+
+	ctx := context.TODO()
+
+	client := New("duffel_test_123")
+	places, err := client.ListPlaces(ctx, []ListPlacesParams{
+		{
+			Lat: 51.885508,
+		},
+		{
+			Long: 0.236933,
+		},
+		{
+			Rad: 100,
+		},
+	})
+	a.NoError(err)
+	a.NotNil(places)
+
+	a.Equal("London Stansted Airport", places[0].Name)
+	a.Equal("London", places[0].CityName)
+	a.Equal("EGSS", places[0].ICAOCode)
+	a.Equal("STN", places[0].IATACode)
 }
