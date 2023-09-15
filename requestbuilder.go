@@ -248,7 +248,8 @@ func decodeResponse[T any](resp *http.Response, v T) error {
 	}
 	defer reader.Close()
 
-	return json.NewDecoder(reader).Decode(v)
+	err = json.NewDecoder(reader).Decode(v)
+	return err
 }
 
 // normalizeParams returns a slice of interfaces from the given params.
