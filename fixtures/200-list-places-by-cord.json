@@ -1,0 +1,19 @@
+{
+    "warnings": [],
+    "meta": null,
+    "data": [
+        {
+            "type": "airport",
+            "time_zone": "Europe/London",
+            "name": "London Stansted Airport",
+            "longitude": 0.236933,
+            "latitude": 51.885508,
+            "id": "arp_stn_gb",
+            "icao_code": "EGSS",
+            "iata_country_code": "GB",
+            "iata_code": "STN",
+            "iata_city_code": "LON",
+            "city_name": "London"
+        }
+    ]
+}
