@@ -22,7 +22,7 @@ func main() {
 	}
 	query := os.Args[1]
 
-	places, err := client.PlaceSuggestions(ctx, query)
+	places, err := client.ListPlaces(ctx, []duffel.ListPlacesParams{{Query: query}})
 	if err != nil {
 		log.Fatalln(err)
 		return

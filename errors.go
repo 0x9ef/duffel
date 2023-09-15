@@ -38,6 +38,16 @@ const (
 	// The request was unacceptable
 	BadRequest ErrorCode = "bad_request"
 
+	// Bad gateway error.
+	// Please contact our support team and attach the request_id to your message.
+	// You should not retry this request.
+	BadGateway ErrorCode = "bad_gateway"
+
+	// Gateway timeout error.
+	// If the error persists please contact our support team and attach the request_id to your message.
+	// Please retry later.
+	GatewayTimeout ErrorCode = "gateway_timeout_error"
+
 	// A booking with the same details was already found for the selected itinerary, please select another offer
 	DuplicateBooking ErrorCode = "duplicate_booking"
 
