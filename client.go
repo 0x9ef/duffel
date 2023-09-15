@@ -187,7 +187,13 @@ func gzipResponseReader(response *http.Response) (io.ReadCloser, error) {
 	} else {
 		reader = response.Body
 	}
+
 	return reader, nil
+}
+
+var notRetryableErrors = map[ErrorCode]bool{
+	OrderNotCreated:               true,
+	OrderCreationAlreadyAttempted: true,
 }
 
 func decodeError(response *http.Response) error {
@@ -197,7 +203,6 @@ func decodeError(response *http.Response) error {
 	}
 
 	contentType := response.Header.Get("Content-Type")
-
 	if strings.HasPrefix(contentType, "text/html") {
 		// Handle occasional HTML error pages at routing layer
 		return &DuffelError{
@@ -214,16 +219,16 @@ func decodeError(response *http.Response) error {
 		}
 	}
 
-	notRetryable := strings.HasPrefix(response.Request.URL.Path, "/air/orders") &&
-		response.StatusCode == http.StatusInternalServerError
-
-	derr := &DuffelError{
-		StatusCode: response.StatusCode,
-		Retryable:  !notRetryable,
-	}
+	// Try to decode error and set internal StatusCode
+	derr := &DuffelError{StatusCode: response.StatusCode}
 	err = json.NewDecoder(reader).Decode(derr)
 	if err != nil {
 		return err
 	}
-	return derr
+
+	// We should not retry when InternalServerError and BadGateway status codes
+	derr.Retryable = response.StatusCode != 500 && response.StatusCode != 502 &&
+		!notRetryableErrors[derr.Errors[0].Code]
+
+	return err
 }
