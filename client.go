@@ -65,7 +65,6 @@ func (c *client[R, T]) makeRequest(ctx context.Context, resourceName string, met
 	if err != nil {
 		return nil, err
 	}
-
 	if method != http.MethodGet {
 		req.Body = body
 	}
@@ -127,8 +126,7 @@ func (c *client[R, T]) makeRequest(ctx context.Context, resourceName string, met
 		}
 
 		if resp.StatusCode >= 400 {
-			err = decodeError(resp)
-			return nil, err
+			return resp, decodeError(resp)
 		}
 		return resp, nil
 	}
