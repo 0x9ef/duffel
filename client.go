@@ -192,10 +192,17 @@ func gzipResponseReader(resp *http.Response) (io.ReadCloser, error) {
 	return reader, nil
 }
 
-var notRetryableErrors = map[ErrorCode]bool{
-	OrderNotCreated:               true,
-	OrderCreationAlreadyAttempted: true,
-}
+var (
+	notRetryableErrorCodes = map[ErrorCode]bool{
+		OrderNotCreated:               true,
+		OrderCreationAlreadyAttempted: true,
+	}
+
+	notRetryableErrorTypes = map[ErrorType]bool{
+		ValidationError:     true,
+		AuthenticationError: true,
+	}
+)
 
 func decodeError(response *http.Response) error {
 	contentType := response.Header.Get("Content-Type")
@@ -226,12 +233,16 @@ func decodeError(response *http.Response) error {
 		return err
 	}
 
-	// There are some rules to define if error isn't retryable:
-	// * Status code == 500 or 502.
-	// * Error type == ValidationError.
-	// * Error code exists in notRetryableErrors map.
-	notRetryable := response.StatusCode == 500 || response.StatusCode == 502 ||
-		IsErrorType(err, ValidationError) || notRetryableErrors[derr.Errors[0].Code]
+	// There are some rules to define if request isn't retryable
+	// * If statusCode == 500 (Internal Server Error) or 502 (Bad Gateway)
+	notRetryable := response.StatusCode == 500 || response.StatusCode == 502
+	if len(derr.Errors) != 0 {
+		// * If errorType presented in notRetryableErrorTypes
+		// * If errorCode presented in notRetryableErrorCodes
+		notRetryable = notRetryable ||
+			notRetryableErrorTypes[derr.Errors[0].Type] ||
+			notRetryableErrorCodes[derr.Errors[0].Code]
+	}
 	derr.Retryable = !notRetryable
 
 	return derr
