@@ -226,9 +226,13 @@ func decodeError(response *http.Response) error {
 		return err
 	}
 
-	// We should not retry when InternalServerError and BadGateway status codes
-	derr.Retryable = response.StatusCode != 500 && response.StatusCode != 502 &&
-		!notRetryableErrors[derr.Errors[0].Code]
+	// There are some rules to define if error isn't retryable:
+	// * Status code == 500 or 502.
+	// * Error type == ValidationError.
+	// * Error code exists in notRetryableErrors map.
+	notRetryable := response.StatusCode == 500 || response.StatusCode == 502 ||
+		IsErrorType(err, ValidationError) || notRetryableErrors[derr.Errors[0].Code]
+	derr.Retryable = !notRetryable
 
 	return derr
 }
