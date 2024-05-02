@@ -17,6 +17,7 @@ const defaultHost = "https://api.duffel.com/"
 type (
 	Duffel interface {
 		OfferRequestClient
+		BatchOfferRequestClient
 		OfferClient
 		OrderClient
 		OrderChangeClient
