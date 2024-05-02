@@ -53,7 +53,7 @@ func main() {
 	})
 	handleErr(err)
 
-	offersIter := client.ListOffers(ctx, data.ID)
+	offersIter := client.ListOffers(ctx, data.ID, nil)
 	var selectedOffer *duffel.Offer
 
 	allOffers, err := duffel.Collect(offersIter)

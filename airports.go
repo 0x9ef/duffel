@@ -11,8 +11,8 @@ import (
 
 type (
 	AirportsClient interface {
-		ListAirports(ctx context.Context, params ...ListAirportsParams) *Iter[Airport]
-		GetAirport(ctx context.Context, id string) (*Airport, error)
+		ListAirports(ctx context.Context, params []ListAirportsParams, requestOptions ...RequestOption) *Iter[Airport]
+		GetAirport(ctx context.Context, id string, requestOptions ...RequestOption) (*Airport, error)
 	}
 
 	ListAirportsParams struct {
@@ -20,16 +20,18 @@ type (
 	}
 )
 
-func (a *API) ListAirports(ctx context.Context, params ...ListAirportsParams) *Iter[Airport] {
+func (a *API) ListAirports(ctx context.Context, params []ListAirportsParams, requestOptions ...RequestOption) *Iter[Airport] {
 	return newRequestWithAPI[ListAirportsParams, Airport](a).
 		Get("/air/airports").
 		WithParams(normalizeParams(params)...).
+		WithOptions(requestOptions...).
 		Iter(ctx)
 }
 
-func (a *API) GetAirport(ctx context.Context, id string) (*Airport, error) {
+func (a *API) GetAirport(ctx context.Context, id string, requestOptions ...RequestOption) (*Airport, error) {
 	return newRequestWithAPI[EmptyPayload, Airport](a).
 		Getf("/air/airports/%s", id).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 

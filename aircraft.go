@@ -10,20 +10,22 @@ import (
 
 type (
 	AircraftClient interface {
-		ListAircraft(ctx context.Context) *Iter[Aircraft]
-		GetAircraft(ctx context.Context, id string) (*Aircraft, error)
+		ListAircraft(ctx context.Context, requestOptions ...RequestOption) *Iter[Aircraft]
+		GetAircraft(ctx context.Context, id string, requestOptions ...RequestOption) (*Aircraft, error)
 	}
 )
 
-func (a *API) ListAircraft(ctx context.Context) *Iter[Aircraft] {
+func (a *API) ListAircraft(ctx context.Context, requestOptions ...RequestOption) *Iter[Aircraft] {
 	return newRequestWithAPI[ListAirportsParams, Aircraft](a).
 		Get("/air/aircraft").
+		WithOptions(requestOptions...).
 		Iter(ctx)
 }
 
-func (a *API) GetAircraft(ctx context.Context, id string) (*Aircraft, error) {
+func (a *API) GetAircraft(ctx context.Context, id string, requestOptions ...RequestOption) (*Aircraft, error) {
 	return newRequestWithAPI[EmptyPayload, Aircraft](a).
 		Getf("/air/aircraft/%s", id).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 

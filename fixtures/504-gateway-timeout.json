@@ -1,0 +1,15 @@
+{
+    "errors": [
+        {
+            "documentation_url": "https://duffel.com/docs/api/overview/errors",
+            "title": "The request timed out",
+            "type": "api_error",
+            "message": "Gateway timeout error. If the error persists please contact our support team and attach the `request_id` to your message. Please retry later.",
+            "code": "gateway_timeout_error"
+        }
+    ],
+    "meta": {
+        "request_id": "F4UJvUdVJ0BFfMIAG7zC",
+        "status": 504
+    }
+}

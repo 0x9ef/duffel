@@ -65,7 +65,6 @@ func (c *client[R, T]) makeRequest(ctx context.Context, resourceName string, met
 	if err != nil {
 		return nil, err
 	}
-
 	if method != http.MethodGet {
 		req.Body = body
 	}
@@ -127,8 +126,7 @@ func (c *client[R, T]) makeRequest(ctx context.Context, resourceName string, met
 		}
 
 		if resp.StatusCode >= 400 {
-			err = decodeError(resp)
-			return nil, err
+			return resp, decodeError(resp)
 		}
 		return resp, nil
 	}
@@ -167,7 +165,6 @@ func (c *client[R, T]) makeRequest(ctx context.Context, resourceName string, met
 
 func (c *client[R, T]) buildRequestURL(resourceName string) (*url.URL, error) {
 	u, err := url.Parse(c.options.Host)
-
 	if err != nil {
 		return nil, err
 	}
@@ -176,28 +173,39 @@ func (c *client[R, T]) buildRequestURL(resourceName string) (*url.URL, error) {
 	return u, nil
 }
 
-func gzipResponseReader(response *http.Response) (io.ReadCloser, error) {
-	var reader io.ReadCloser
+func gzipResponseReader(resp *http.Response) (io.ReadCloser, error) {
 	var err error
-	if response.Header.Get("Content-Encoding") == "gzip" {
-		reader, err = gzip.NewReader(response.Body)
+	var reader io.ReadCloser
+	if resp.Header.Get("Content-Encoding") == "gzip" {
+		reader, err = gzip.NewReader(resp.Body)
 		if err != nil {
 			return nil, err
 		}
 	} else {
-		reader = response.Body
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return nil, err
+		}
+		reader, resp.Body = io.NopCloser(bytes.NewBuffer(body)), io.NopCloser(bytes.NewBuffer(body))
 	}
+
 	return reader, nil
 }
 
-func decodeError(response *http.Response) error {
-	reader, err := gzipResponseReader(response)
-	if err != nil {
-		return err
+var (
+	notRetryableErrorCodes = map[ErrorCode]bool{
+		OrderNotCreated:               true,
+		OrderCreationAlreadyAttempted: true,
 	}
 
-	contentType := response.Header.Get("Content-Type")
+	notRetryableErrorTypes = map[ErrorType]bool{
+		ValidationError:     true,
+		AuthenticationError: true,
+	}
+)
 
+func decodeError(response *http.Response) error {
+	contentType := response.Header.Get("Content-Type")
 	if strings.HasPrefix(contentType, "text/html") {
 		// Handle occasional HTML error pages at routing layer
 		return &DuffelError{
@@ -214,16 +222,28 @@ func decodeError(response *http.Response) error {
 		}
 	}
 
-	notRetryable := strings.HasPrefix(response.Request.URL.Path, "/air/orders") &&
-		response.StatusCode == http.StatusInternalServerError
-
-	derr := &DuffelError{
-		StatusCode: response.StatusCode,
-		Retryable:  !notRetryable,
+	reader, err := gzipResponseReader(response)
+	if err != nil {
+		return err
 	}
+
+	derr := &DuffelError{StatusCode: response.StatusCode}
 	err = json.NewDecoder(reader).Decode(derr)
 	if err != nil {
 		return err
 	}
+
+	// There are some rules to define if request isn't retryable
+	// * If statusCode == 500 (Internal Server Error) or 502 (Bad Gateway)
+	notRetryable := response.StatusCode == 500 || response.StatusCode == 502
+	if len(derr.Errors) != 0 {
+		// * If errorType presented in notRetryableErrorTypes
+		// * If errorCode presented in notRetryableErrorCodes
+		notRetryable = notRetryable ||
+			notRetryableErrorTypes[derr.Errors[0].Type] ||
+			notRetryableErrorCodes[derr.Errors[0].Code]
+	}
+	derr.Retryable = !notRetryable
+
 	return derr
 }

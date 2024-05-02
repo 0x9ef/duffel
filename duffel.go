@@ -18,6 +18,7 @@ type (
 	Duffel interface {
 		OfferRequestClient
 		BatchOfferRequestClient
+		PartialOfferRequestClient
 		OfferClient
 		OrderClient
 		OrderChangeClient

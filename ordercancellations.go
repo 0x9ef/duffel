@@ -7,7 +7,6 @@ package duffel
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/bojanz/currency"
 )
@@ -15,6 +14,12 @@ import (
 const orderCancellationIDPrefix = "ore_"
 
 type (
+	OrderCancellationClient interface {
+		CreateOrderCancellation(ctx context.Context, orderID string, requestOptions ...RequestOption) (*OrderCancellation, error)
+		ConfirmOrderCancellation(ctx context.Context, orderCancellationID string, requestOptions ...RequestOption) (*OrderCancellation, error)
+		GetOrderCancellation(ctx context.Context, orderCancellationID string, requestOptions ...RequestOption) (*OrderCancellation, error)
+	}
+
 	// OrderCancellationRequest is response from the OrderCancellation API.
 	//
 	// Once you've created a pending order cancellation, you'll know
@@ -39,40 +44,40 @@ type (
 	OrderCancellationRequest struct {
 		OrderID string `json:"order_id"`
 	}
-
-	// OrderCancellationClient
-	OrderCancellationClient interface {
-		CreateOrderCancellation(ctx context.Context, orderID string) (*OrderCancellation, error)
-		ConfirmOrderCancellation(ctx context.Context, orderCancellationID string) (*OrderCancellation, error)
-		GetOrderCancellation(ctx context.Context, orderCancellationID string) (*OrderCancellation, error)
-	}
 )
 
-func (a *API) CreateOrderCancellation(ctx context.Context, orderID string) (*OrderCancellation, error) {
+func (a *API) CreateOrderCancellation(ctx context.Context, orderID string, requestOptions ...RequestOption) (*OrderCancellation, error) {
+	if err := validateID(orderID, orderIDPrefix); err != nil {
+		return nil, err
+	}
+
 	return newRequestWithAPI[OrderCancellationRequest, OrderCancellation](a).
 		Post("/air/order_cancellations", &OrderCancellationRequest{
 			OrderID: orderID,
 		}).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) ConfirmOrderCancellation(ctx context.Context, orderCancellationID string) (*OrderCancellation, error) {
-	if !strings.HasPrefix(orderCancellationID, orderCancellationIDPrefix) {
-		return nil, fmt.Errorf("orderCancellationID should have prefix %s, got %s", orderCancellationIDPrefix, orderCancellationID[:4])
+func (a *API) ConfirmOrderCancellation(ctx context.Context, orderCancellationID string, requestOptions ...RequestOption) (*OrderCancellation, error) {
+	if err := validateID(orderCancellationID, orderCancellationIDPrefix); err != nil {
+		return nil, err
 	}
 
 	return newRequestWithAPI[EmptyPayload, OrderCancellation](a).
 		Post(fmt.Sprintf("/air/order_cancellations/%s/actions/confirm", orderCancellationID), nil).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) GetOrderCancellation(ctx context.Context, orderCancellationID string) (*OrderCancellation, error) {
-	if !strings.HasPrefix(orderCancellationID, orderCancellationIDPrefix) {
-		return nil, fmt.Errorf("orderCancellationID should have prefix %s, got %s", orderCancellationIDPrefix, orderCancellationID[:4])
+func (a *API) GetOrderCancellation(ctx context.Context, orderCancellationID string, requestOptions ...RequestOption) (*OrderCancellation, error) {
+	if err := validateID(orderCancellationID, orderCancellationIDPrefix); err != nil {
+		return nil, err
 	}
 
 	return newRequestWithAPI[EmptyPayload, OrderCancellation](a).
 		Getf("/air/order_cancellations/%s", orderCancellationID).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 

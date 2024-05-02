@@ -10,8 +10,6 @@ package duffel
 
 import (
 	"context"
-	"fmt"
-	"strings"
 	"time"
 
 	"github.com/bojanz/currency"
@@ -24,6 +22,12 @@ const (
 )
 
 type (
+	OrderChangeClient interface {
+		CreateOrderChangeRequest(ctx context.Context, params OrderChangeRequestParams, requestOptions ...RequestOption) (*OrderChangeRequest, error)
+		GetOrderChangeRequest(ctx context.Context, orderChangeRequestID string, requestOptions ...RequestOption) (*OrderChangeRequest, error)
+		CreatePendingOrderChange(ctx context.Context, orderChangeOfferID string, requestOptions ...RequestOption) (*OrderChange, error)
+		ConfirmOrderChange(ctx context.Context, orderChangeRequestID string, payment PaymentCreateInput, requestOptions ...RequestOption) (*OrderChange, error)
+	}
 
 	// OrderChangeRequest is the input to the OrderChange API.
 	// To change an order, you'll need to create an order change request.
@@ -99,60 +103,51 @@ type (
 		Add    []SliceAdd    `json:"add,omitempty"`
 		Remove []SliceRemove `json:"remove,omitempty"`
 	}
-
-	OrderChangeClient interface {
-		CreateOrderChangeRequest(ctx context.Context, params OrderChangeRequestParams) (*OrderChangeRequest, error)
-		GetOrderChangeRequest(ctx context.Context, id string) (*OrderChangeRequest, error)
-		CreatePendingOrderChange(ctx context.Context, orderChangeRequestID string) (*OrderChange, error)
-		ConfirmOrderChange(ctx context.Context, id string, payment PaymentCreateInput) (*OrderChange, error)
-	}
 )
 
-func (a *API) CreateOrderChangeRequest(ctx context.Context, params OrderChangeRequestParams) (*OrderChangeRequest, error) {
+func (a *API) CreateOrderChangeRequest(ctx context.Context, params OrderChangeRequestParams, requestOptions ...RequestOption) (*OrderChangeRequest, error) {
 	return newRequestWithAPI[OrderChangeRequestParams, OrderChangeRequest](a).
 		Post("/air/order_change_requests", &params).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) GetOrderChangeRequest(ctx context.Context, orderChangeRequestID string) (*OrderChangeRequest, error) {
+func (a *API) GetOrderChangeRequest(ctx context.Context, orderChangeRequestID string, requestOptions ...RequestOption) (*OrderChangeRequest, error) {
 	if err := validateID(orderChangeRequestID, orderChangeRequestIDPrefix); err != nil {
 		return nil, err
 	}
+
 	return newRequestWithAPI[EmptyPayload, OrderChangeRequest](a).
 		Getf("/air/order_change_requests/%s", orderChangeRequestID).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) CreatePendingOrderChange(ctx context.Context, offerID string) (*OrderChange, error) {
-	if err := validateID(offerID, orderChangeOfferIDPrefix); err != nil {
+func (a *API) CreatePendingOrderChange(ctx context.Context, orderChangeOfferID string, requestOptions ...RequestOption) (*OrderChange, error) {
+	if err := validateID(orderChangeOfferID, orderChangeOfferIDPrefix); err != nil {
 		return nil, err
 	}
+
 	return newRequestWithAPI[map[string]string, OrderChange](a).
 		Postf("/air/order_changes").
-		Body(&map[string]string{"selected_order_change_offer": offerID}).
+		Body(&map[string]string{"selected_order_change_offer": orderChangeOfferID}).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
-func (a *API) ConfirmOrderChange(ctx context.Context, orderChangeRequestID string, payment PaymentCreateInput) (*OrderChange, error) {
+func (a *API) ConfirmOrderChange(ctx context.Context, orderChangeRequestID string, payment PaymentCreateInput, requestOptions ...RequestOption) (*OrderChange, error) {
 	if err := validateID(orderChangeRequestID, orderChangeRequestIDPrefix); err != nil {
 		return nil, err
 	}
+
 	return newRequestWithAPI[PaymentCreateInput, OrderChange](a).
 		Postf("/air/order_changes/%s/actions/confirm", orderChangeRequestID).
 		Body(&payment).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
 var _ OrderChangeClient = (*API)(nil)
-
-func validateID(id, prefix string) error {
-	if id == "" {
-		return fmt.Errorf("id param is required")
-	} else if !strings.HasPrefix(id, prefix) {
-		return fmt.Errorf("id should begin with %s", prefix)
-	}
-	return nil
-}
 
 func (o *OrderChangeOffer) ChangeTotalAmount() currency.Amount {
 	amount, err := currency.NewAmount(o.RawChangeTotalAmount, o.RawChangeTotalCurrency)

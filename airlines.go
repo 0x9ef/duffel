@@ -10,20 +10,22 @@ import (
 
 type (
 	AirlinesClient interface {
-		ListAirlines(ctx context.Context) *Iter[Airline]
-		GetAirline(ctx context.Context, id string) (*Airline, error)
+		ListAirlines(ctx context.Context, requestOptions ...RequestOption) *Iter[Airline]
+		GetAirline(ctx context.Context, id string, requestOptions ...RequestOption) (*Airline, error)
 	}
 )
 
-func (a *API) ListAirlines(ctx context.Context) *Iter[Airline] {
+func (a *API) ListAirlines(ctx context.Context, requestOptions ...RequestOption) *Iter[Airline] {
 	return newRequestWithAPI[EmptyPayload, Airline](a).
 		Get("/air/airlines").
+		WithOptions(requestOptions...).
 		Iter(ctx)
 }
 
-func (a *API) GetAirline(ctx context.Context, id string) (*Airline, error) {
+func (a *API) GetAirline(ctx context.Context, id string, requestOptions ...RequestOption) (*Airline, error) {
 	return newRequestWithAPI[EmptyPayload, Airline](a).
 		Getf("/air/airlines/%s", id).
+		WithOptions(requestOptions...).
 		Single(ctx)
 }
 
