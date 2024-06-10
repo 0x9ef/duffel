@@ -2,7 +2,7 @@ package duffel
 
 import "time"
 
-func (f *Flight) DepartingAt() (time.Time, error) {
+func (f *Segment) DepartingAt() (time.Time, error) {
 	loc, err := time.LoadLocation(f.Origin.TimeZone)
 	if err != nil {
 		return time.Time{}, err
@@ -16,7 +16,7 @@ func (f *Flight) DepartingAt() (time.Time, error) {
 	return t, err
 }
 
-func (f *Flight) ArrivingAt() (time.Time, error) {
+func (f *Segment) ArrivingAt() (time.Time, error) {
 	loc, err := time.LoadLocation(f.Destination.TimeZone)
 	if err != nil {
 		return time.Time{}, err
@@ -28,4 +28,12 @@ func (f *Flight) ArrivingAt() (time.Time, error) {
 	}
 
 	return t, err
+}
+
+func (s SegmentStop) DepartingAt() (time.Time, error) {
+	return time.Parse("2006-01-02T15:04:05", s.RawDepartingAt)
+}
+
+func (s SegmentStop) ArrivingAt() (time.Time, error) {
+	return time.Parse("2006-01-02T15:04:05", s.RawDepartingAt)
 }

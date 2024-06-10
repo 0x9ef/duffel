@@ -55,11 +55,11 @@ type (
 		// The conditions associated with this slice, describing the kinds of modifications you can make and any penalties that will apply to those modifications.
 		Conditions    SliceConditions `json:"conditions,omitempty"`
 		Duration      Duration        `json:"duration,omitempty"`
-		Segments      []Flight        `json:"segments,omitempty"`
+		Segments      []Segment       `json:"segments,omitempty"`
 		FareBrandName string          `json:"fare_brand_name,omitempty"`
 	}
 
-	Flight struct {
+	Segment struct {
 		ID                           string             `json:"id"`
 		Passengers                   []SegmentPassenger `json:"passengers"`
 		Origin                       Location           `json:"origin"`
@@ -68,7 +68,7 @@ type (
 		OperatingCarrier             Airline            `json:"operating_carrier"`
 		MarketingCarrierFlightNumber string             `json:"marketing_carrier_flight_number"`
 		MarketingCarrier             Airline            `json:"marketing_carrier"`
-		Stops                        []FlightStop       `json:"stops,omitempty"`
+		Stops                        []SegmentStop      `json:"stops,omitempty"`
 		Duration                     Duration           `json:"duration"`
 		Distance                     Distance           `json:"distance,omitempty"`
 		DestinationTerminal          string             `json:"destination_terminal"`
@@ -78,10 +78,11 @@ type (
 		Aircraft                     Aircraft           `json:"aircraft"`
 	}
 
-	FlightStop struct {
+	SegmentStop struct {
 		ID             string   `json:"id"`
 		Duration       Duration `json:"duration"`
 		RawDepartingAt string   `json:"departing_at"`
+		RawArrivingAt  string   `json:"arriving_at"`
 		Airport        Airport  `json:"airport"`
 	}
 
