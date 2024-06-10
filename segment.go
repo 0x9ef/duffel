@@ -35,5 +35,5 @@ func (s SegmentStop) DepartingAt() (time.Time, error) {
 }
 
 func (s SegmentStop) ArrivingAt() (time.Time, error) {
-	return time.Parse("2006-01-02T15:04:05", s.RawDepartingAt)
+	return time.Parse("2006-01-02T15:04:05", s.RawArrivingAt)
 }
