@@ -180,5 +180,8 @@ func parseJSONBytesToStringTryUnescape(b []byte) (string, error) {
 		}
 		return string(b), nil
 	}
+	if string(unescaped) == "null" {
+		return "", ErrNullValue
+	}
 	return string(unescaped), nil
 }
