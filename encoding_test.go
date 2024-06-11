@@ -74,6 +74,7 @@ func TestDistance(t *testing.T) {
 		{Distance: "5567.72", Want: 5567.72},
 		{Distance: "1233.325455", Want: 1233.325455},
 		{Distance: "20.15", Want: 20.15},
+		{Distance: "\"20.15\"", Want: 20.15},
 	}
 
 	for _, tc := range testCases {
