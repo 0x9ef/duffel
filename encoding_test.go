@@ -65,6 +65,30 @@ func TestDateTime(t *testing.T) {
 	}
 }
 
+func TestDistance(t *testing.T) {
+	testCases := []struct {
+		Name     string
+		Distance string
+		Want     Distance
+	}{
+		{Distance: "5567.72", Want: 5567.72},
+		{Distance: "1233.325455", Want: 1233.325455},
+		{Distance: "20.15", Want: 20.15},
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.Name, func(t *testing.T) {
+			var distance Distance
+			if err := distance.UnmarshalJSON([]byte(tc.Distance)); err != nil {
+				t.Fatal(err)
+			}
+			if distance != Distance(tc.Want) {
+				t.Errorf("%s: expected %f, got: %f", tc.Distance, tc.Want, distance)
+			}
+		})
+	}
+}
+
 func TestJSONUnescape(t *testing.T) {
 	b := []byte("\"name\"")
 	a := json.Unescape(b)

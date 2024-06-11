@@ -148,19 +148,10 @@ func (t Distance) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements the json.Unmarshaler from date string to time.Time
 func (t *Distance) UnmarshalJSON(b []byte) error {
-	f, err := parseJSONBytesToString(b)
-	if err != nil {
-		if err == ErrNullValue {
-			return nil
-		}
-		return err
-	}
-
-	d, err := strconv.ParseFloat(f, 16)
+	d, err := strconv.ParseFloat(string(b), 64)
 	if err != nil {
 		return err
 	}
-
 	*t = Distance(d)
 
 	return nil
@@ -173,6 +164,5 @@ func parseJSONBytesToString(b []byte) (string, error) {
 	if len(b) == 0 {
 		return "", ErrNullValue
 	}
-
 	return string(b), nil
 }
