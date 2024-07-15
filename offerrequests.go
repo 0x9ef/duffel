@@ -57,6 +57,7 @@ type (
 	OfferRequest struct {
 		ID         string                  `json:"id"`
 		LiveMode   bool                    `json:"live_mode"`
+		ClientKey  string                  `json:"client_key"`
 		CreatedAt  time.Time               `json:"created_at"`
 		Slices     []BaseSlice             `json:"slices"`
 		Passengers []OfferRequestPassenger `json:"passengers"`
