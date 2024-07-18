@@ -49,24 +49,15 @@ type (
 
 	AvailableService struct {
 		// Duffel's unique identifier for service
-		ID               string                   `json:"id"`
-		MaximumQuantity  int                      `json:"maximum_quantity"`
-		Metadata         AvailableServiceMetadata `json:"metadata"`
-		PassengerIDs     []string                 `json:"passenger_ids"`
-		SegmentIDs       []string                 `json:"segment_ids"`
-		RawTotalAmount   string                   `json:"total_amount"`
-		RawTotalCurrency string                   `json:"total_currency"`
+		ID               string         `json:"id"`
+		MaximumQuantity  int            `json:"maximum_quantity"`
+		Metadata         map[string]any `json:"metadata"`
+		PassengerIDs     []string       `json:"passenger_ids"`
+		SegmentIDs       []string       `json:"segment_ids"`
+		RawTotalAmount   string         `json:"total_amount"`
+		RawTotalCurrency string         `json:"total_currency"`
 
 		// Possible values: "baggage"
-		Type string `json:"type"`
-	}
-
-	AvailableServiceMetadata struct {
-		MaximumDepthCM  int `json:"maximum_depth_cm,omitempty"`
-		MaximumHeightCM int `json:"maximum_height_cm,omitempty"`
-		MaximumLengthCM int `json:"maximum_length_cm,omitempty"`
-		MaximumWeightKg int `json:"maximum_weight_kg,omitempty"`
-		// Possible values: "checked", "carry_on"
 		Type string `json:"type"`
 	}
 
