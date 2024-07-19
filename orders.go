@@ -34,6 +34,7 @@ type (
 		BookingReference string           `json:"booking_reference"`
 		CancelledAt      *time.Time       `json:"cancelled_at,omitempty"`
 		CreatedAt        time.Time        `json:"created_at"`
+		AvailableActions []string         `json:"available_actions"`
 		Conditions       Conditions       `json:"conditions,omitempty"`
 		Documents        []Document       `json:"documents,omitempty"`
 		Owner            Airline          `json:"owner"`
