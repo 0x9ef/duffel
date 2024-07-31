@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/bojanz/currency v1.0.1
-	github.com/gorilla/schema v1.2.0
+	github.com/gorilla/schema v1.4.1
 	github.com/jedib0t/go-pretty/v6 v6.2.7
 	github.com/pkg/errors v0.9.1
 	github.com/rickb777/date v1.17.0
@@ -18,7 +18,6 @@ require (
 	github.com/cockroachdb/apd/v3 v3.0.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.0-20190314233015-f79a8a8ca69d // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/fatih/color v1.13.0 // indirect
 	github.com/h2non/parth v0.0.0-20190131123155-b4df798d6542 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-colorable v0.1.9 // indirect
@@ -37,6 +36,7 @@ require (
 )
 
 require (
+	github.com/fatih/color v1.13.0
 	github.com/gocarina/gocsv v0.0.0-20220520193141-bb9bebb918c3
 	github.com/segmentio/encoding v0.3.4
 )
